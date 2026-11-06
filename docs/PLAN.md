@@ -3,6 +3,7 @@
 Minimal architecture: Next.js App Router + TypeScript + Tailwind + shadcn-style Radix components; libSQL (file SQLite locally, Turso remotely); private sanitized camera JPEGs on a persistent volume or S3. Opaque signed browser sessions authorize mission ownership and claims. No contracts.
 
 Milestones (commit each runnable milestone):
+
 1. Runnable shell, environment contract, current official SDK dependencies.
 2. Durable mission creation/listing, guarded transitions, owner cancellation, challenge and evidence UI.
 3. 0G image-input API, validated JSON assessment, request/model receipt; fail closed.

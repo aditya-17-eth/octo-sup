@@ -1,7 +1,117 @@
 import Link from "next/link";
-import { ArrowUpRight, ScanLine, Fingerprint, Braces, Radio } from "lucide-react";
+import {
+  ArrowUpRight,
+  ScanLine,
+  Fingerprint,
+  Braces,
+  Radio,
+} from "lucide-react";
 import { MissionFeed } from "@/components/mission-feed";
 export const dynamic = "force-dynamic";
 export default function Home() {
-  return <><section className="hero"><div className="hero-copy"><div className="eyebrow"><Radio size={13}/> Physical intelligence protocol</div><h1>The physical world,<br/>as an API for AI<span className="cursor">_</span></h1><p>Your agent can read the internet.<br/>Give it eyes in the real world.</p><div className="actions"><Link className="button button-primary" href="/missions">Explore missions <ArrowUpRight size={17}/></Link><Link className="button button-outline" href="/agent">Launch buyer agent</Link></div><div className="hero-footnote"><span className="dot"/> Human observed <i/> AI assessed <i/> Paid over x402</div></div><div className="signal-panel"><div className="panel-top"><span><ScanLine size={15}/> Observation pipeline</span><span className="mono">v0.1 / testnet</span></div><div className="scan-scene" aria-hidden="true"><div className="scan-grid"/><div className="target-corner tl"/><div className="target-corner tr"/><div className="target-corner bl"/><div className="target-corner br"/><div className="crosshair">+</div><span className="scene-label">Awaiting a real-world signal</span><div className="scan-axis">x: human / y: machine</div></div><div className="pipeline"><div><span>01</span><Fingerprint size={18}/><p>Human claim<small>World ID eligibility</small></p></div><div><span>02</span><ScanLine size={18}/><p>Evidence assessment<small>0G Private Computer</small></p></div><div><span>03</span><Braces size={18}/><p>Paid intelligence<small>Hedera · HTTP 402</small></p></div></div><div className="panel-bottom">Real receipts only. No simulated settlements.</div></div></section><div className="protocol-strip"><p>A new interface to reality.</p><span>World <small>Human eligibility</small></span><span>0G <small>Visual inference</small></span><span>Hedera <small>Agent payments</small></span></div><MissionFeed compact/><section className="manifesto"><span className="eyebrow">Ask something the web can’t answer</span><h2>“Is the Hedera booth<br/>currently staffed?”</h2><p>A fresh human observation becomes a structured report your agent can discover, assess, and buy. Every step leaves a receipt.</p><Link href="/missions/new" className="text-link">Publish your first question <ArrowUpRight size={16}/></Link></section></>;
+  return (
+    <>
+      <section className="hero">
+        <div className="hero-copy">
+          <div className="eyebrow">
+            <Radio size={13} /> Physical intelligence protocol
+          </div>
+          <h1>
+            The physical world,
+            <br />
+            as an API for AI<span className="cursor">_</span>
+          </h1>
+          <p>
+            Your agent can read the internet.
+            <br />
+            Give it eyes in the real world.
+          </p>
+          <div className="actions">
+            <Link className="button button-primary" href="/missions">
+              Explore missions <ArrowUpRight size={17} />
+            </Link>
+            <Link className="button button-outline" href="/agent">
+              Launch buyer agent
+            </Link>
+          </div>
+          <div className="hero-footnote">
+            <span className="dot" /> Human observed <i /> AI assessed <i /> Paid
+            over x402
+          </div>
+        </div>
+        <div className="signal-panel">
+          <div className="panel-top">
+            <span>
+              <ScanLine size={15} /> Observation pipeline
+            </span>
+            <span className="mono">v0.1 / testnet</span>
+          </div>
+          <div className="scan-scene" aria-hidden="true">
+            <div className="scan-grid" />
+            <div className="target-corner tl" />
+            <div className="target-corner tr" />
+            <div className="target-corner bl" />
+            <div className="target-corner br" />
+            <div className="crosshair">+</div>
+            <span className="scene-label">Awaiting a real-world signal</span>
+            <div className="scan-axis">x: human / y: machine</div>
+          </div>
+          <div className="pipeline">
+            <div>
+              <span>01</span>
+              <Fingerprint size={18} />
+              <p>
+                Human claim<small>World ID eligibility</small>
+              </p>
+            </div>
+            <div>
+              <span>02</span>
+              <ScanLine size={18} />
+              <p>
+                Evidence assessment<small>0G Private Computer</small>
+              </p>
+            </div>
+            <div>
+              <span>03</span>
+              <Braces size={18} />
+              <p>
+                Paid intelligence<small>Hedera · HTTP 402</small>
+              </p>
+            </div>
+          </div>
+          <div className="panel-bottom">
+            Real receipts only. No simulated settlements.
+          </div>
+        </div>
+      </section>
+      <div className="protocol-strip">
+        <p>A new interface to reality.</p>
+        <span>
+          World <small>Human eligibility</small>
+        </span>
+        <span>
+          0G <small>Visual inference</small>
+        </span>
+        <span>
+          Hedera <small>Agent payments</small>
+        </span>
+      </div>
+      <MissionFeed compact />
+      <section className="manifesto">
+        <span className="eyebrow">Ask something the web can’t answer</span>
+        <h2>
+          “Is the Hedera booth
+          <br />
+          currently staffed?”
+        </h2>
+        <p>
+          A fresh human observation becomes a structured report your agent can
+          discover, assess, and buy. Every step leaves a receipt.
+        </p>
+        <Link href="/missions/new" className="text-link">
+          Publish your first question <ArrowUpRight size={16} />
+        </Link>
+      </section>
+    </>
+  );
 }

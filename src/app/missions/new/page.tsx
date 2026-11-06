@@ -5,7 +5,121 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export default function NewMission() {
-  const router = useRouter(), [error, setError] = useState(""), [busy, setBusy] = useState(false);
-  async function submit(event: React.FormEvent<HTMLFormElement>) { event.preventDefault(); setBusy(true); setError(""); const f = new FormData(event.currentTarget); try { const r = await fetch("/api/missions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: f.get("title"), question: f.get("question"), area: f.get("area"), priceTinybars: Math.round(Number(f.get("price")) * 1e8), durationMinutes: Number(f.get("duration")) }) }); const data = await r.json(); if (!r.ok) throw new Error(data.error); router.push(`/missions/${data.id}`); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
-  return <div className="page narrow"><Link href="/missions" className="back"><ArrowLeft size={15}/> Missions</Link><div className="page-title"><div><span className="eyebrow">Create a signal request</span><h1>What do you need to know?</h1><p>Make it specific, observable, and safe to photograph.</p></div></div><form onSubmit={submit} className="form panel"><label>Mission title<input name="title" minLength={10} maxLength={140} required placeholder="Is the Hedera booth currently staffed?"/></label><label>Observation criteria<textarea name="question" minLength={15} maxLength={1500} required rows={4} placeholder="Photograph the booth sign and the staff area. Report whether a representative is available. Include the one-time challenge on paper in the frame."/></label><label>General area<input name="area" minLength={2} maxLength={100} required placeholder="ETHGlobal Mumbai · sponsor hall"/><small>Use a public venue or area. Avoid private addresses and exact personal locations.</small></label><div className="form-grid"><label>Report price (testnet HBAR)<input name="price" type="number" step="0.00000001" min="0.00000001" max="1" defaultValue="0.001" required/></label><label>Mission expires in<select name="duration" defaultValue="60"><option value="30">30 minutes</option><option value="60">1 hour</option><option value="180">3 hours</option><option value="1440">24 hours</option></select></label></div><div className="notice">The report price is the buyer’s purchase price. Contributor payouts are separate and are not yet enabled. Mission text and general area are public.</div>{error && <p className="notice error" role="alert">{error}</p>}<Button disabled={busy} type="submit">{busy ? "Publishing…" : "Publish mission"}<ArrowUpRight size={16}/></Button></form></div>;
+  const router = useRouter(),
+    [error, setError] = useState(""),
+    [busy, setBusy] = useState(false);
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    const f = new FormData(event.currentTarget);
+    try {
+      const r = await fetch("/api/missions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: f.get("title"),
+          question: f.get("question"),
+          area: f.get("area"),
+          priceTinybars: Math.round(Number(f.get("price")) * 1e8),
+          durationMinutes: Number(f.get("duration")),
+        }),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error);
+      router.push(`/missions/${data.id}`);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <div className="page narrow">
+      <Link href="/missions" className="back">
+        <ArrowLeft size={15} /> Missions
+      </Link>
+      <div className="page-title">
+        <div>
+          <span className="eyebrow">Create a signal request</span>
+          <h1>What do you need to know?</h1>
+          <p>Make it specific, observable, and safe to photograph.</p>
+        </div>
+      </div>
+      <form onSubmit={submit} className="form panel">
+        <label>
+          Mission title
+          <input
+            name="title"
+            minLength={10}
+            maxLength={140}
+            required
+            placeholder="Is the Hedera booth currently staffed?"
+          />
+        </label>
+        <label>
+          Observation criteria
+          <textarea
+            name="question"
+            minLength={15}
+            maxLength={1500}
+            required
+            rows={4}
+            placeholder="Photograph the booth sign and the staff area. Report whether a representative is available. Include the one-time challenge on paper in the frame."
+          />
+        </label>
+        <label>
+          General area
+          <input
+            name="area"
+            minLength={2}
+            maxLength={100}
+            required
+            placeholder="ETHGlobal Mumbai · sponsor hall"
+          />
+          <small>
+            Use a public venue or area. Avoid private addresses and exact
+            personal locations.
+          </small>
+        </label>
+        <div className="form-grid">
+          <label>
+            Report price (testnet HBAR)
+            <input
+              name="price"
+              type="number"
+              step="0.00000001"
+              min="0.00000001"
+              max="1"
+              defaultValue="0.001"
+              required
+            />
+          </label>
+          <label>
+            Mission expires in
+            <select name="duration" defaultValue="60">
+              <option value="30">30 minutes</option>
+              <option value="60">1 hour</option>
+              <option value="180">3 hours</option>
+              <option value="1440">24 hours</option>
+            </select>
+          </label>
+        </div>
+        <div className="notice">
+          The report price is the buyer’s purchase price. Contributor payouts
+          are separate and are not yet enabled. Mission text and general area
+          are public.
+        </div>
+        {error && (
+          <p className="notice error" role="alert">
+            {error}
+          </p>
+        )}
+        <Button disabled={busy} type="submit">
+          {busy ? "Publishing…" : "Publish mission"}
+          <ArrowUpRight size={16} />
+        </Button>
+      </form>
+    </div>
+  );
 }

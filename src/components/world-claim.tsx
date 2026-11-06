@@ -1,11 +1,129 @@
 "use client";
-import { useState } from "react";
-import { IDKitRequestWidget, proofOfHuman, type RpContext } from "@worldcoin/idkit";
+import { useRef, useState } from "react";
+import {
+  IDKitRequestWidget,
+  proofOfHuman,
+  type RpContext,
+} from "@worldcoin/idkit";
 import { Button } from "./ui/button";
-type WorldRequest = { requestId: string; signal: string; appId: `app_${string}`; action: string; environment: "production" | "staging"; rp_context: RpContext };
-export function WorldClaim({ missionId, onClaimed }: { missionId: string; onClaimed: () => Promise<void> }) {
-  const [request, setRequest] = useState<WorldRequest | null>(null), [open, setOpen] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(""), [success, setSuccess] = useState(false);
-  async function start() { setError(""); setBusy(true); setSuccess(false); try { const r = await fetch(`/api/missions/${missionId}/claim-request`, { method: "POST" }); const d = await r.json(); if (!r.ok) throw new Error(d.error); setRequest(d); setOpen(true); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
-  async function cancel() { setOpen(false); if (request && !success) { try { await fetch(`/api/missions/${missionId}/claim-request`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ requestId: request.requestId }) }); setError("Verification cancelled. Mission was not claimed."); } catch { setError("Verification closed. Refresh the mission to check its state."); } } }
-  return <><Button disabled={busy || open} onClick={start}>{busy ? "Preparing verification…" : "Verify human & claim"}</Button>{request?.environment === "staging" && <div className="notice">World staging mode: simulator credentials only. This is not production human identity verification. <a href="https://simulator.worldcoin.org" target="_blank" rel="noreferrer" className="text-link">Open simulator</a></div>}{error && <p className="notice error" role="alert">{error}</p>}{request && <IDKitRequestWidget open={open} onOpenChange={value => { if (!value && !success) void cancel(); else setOpen(value); }} app_id={request.appId} action={request.action} rp_context={request.rp_context} environment={request.environment} allow_legacy_proofs={false} preset={proofOfHuman({ signal: request.signal })} handleVerify={async result => { const r = await fetch(`/api/missions/${missionId}/claim`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ requestId: request.requestId, result }) }); const d = await r.json(); if (!r.ok) { setError(d.error); throw new Error(d.error); } setSuccess(true); }} onSuccess={async () => { setSuccess(true); setOpen(false); await onClaimed(); }} onError={() => { setError("World verification was unsuccessful. The protected claim was not granted. Start a fresh verification to retry."); void cancel(); }}/>}</>;
+type WorldRequest = {
+  requestId: string;
+  signal: string;
+  appId: `app_${string}`;
+  action: string;
+  environment: "production" | "staging";
+  rp_context: RpContext;
+};
+export function WorldClaim({
+  missionId,
+  onClaimed,
+}: {
+  missionId: string;
+  onClaimed: () => Promise<void>;
+}) {
+  const completed = useRef(false);
+  const [request, setRequest] = useState<WorldRequest | null>(null),
+    [open, setOpen] = useState(false),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  async function start() {
+    setError("");
+    setBusy(true);
+    completed.current = false;
+    try {
+      const r = await fetch(`/api/missions/${missionId}/claim-request`, {
+        method: "POST",
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error);
+      setRequest(d);
+      setOpen(true);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function cancel() {
+    setOpen(false);
+    if (request && !completed.current) {
+      try {
+        await fetch(`/api/missions/${missionId}/claim-request`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ requestId: request.requestId }),
+        });
+        setError("Verification cancelled. Mission was not claimed.");
+      } catch {
+        setError(
+          "Verification closed. Refresh the mission to check its state.",
+        );
+      }
+    }
+  }
+  return (
+    <>
+      <Button disabled={busy || open} onClick={start}>
+        {busy ? "Preparing verification…" : "Verify human & claim"}
+      </Button>
+      {request?.environment === "staging" && (
+        <div className="notice">
+          World staging mode: simulator credentials only. This is not production
+          human identity verification.{" "}
+          <a
+            href="https://simulator.worldcoin.org"
+            target="_blank"
+            rel="noreferrer"
+            className="text-link"
+          >
+            Open simulator
+          </a>
+        </div>
+      )}
+      {error && (
+        <p className="notice error" role="alert">
+          {error}
+        </p>
+      )}
+      {request && (
+        <IDKitRequestWidget
+          open={open}
+          onOpenChange={(value) => {
+            if (!value && !completed.current) void cancel();
+            else setOpen(value);
+          }}
+          app_id={request.appId}
+          action={request.action}
+          rp_context={request.rp_context}
+          environment={request.environment}
+          allow_legacy_proofs={false}
+          preset={proofOfHuman({ signal: request.signal })}
+          handleVerify={async (result) => {
+            const r = await fetch(`/api/missions/${missionId}/claim`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ requestId: request.requestId, result }),
+            });
+            const d = await r.json();
+            if (!r.ok) {
+              setError(d.error);
+              throw new Error(d.error);
+            }
+            completed.current = true;
+          }}
+          onSuccess={async () => {
+            completed.current = true;
+            setOpen(false);
+            await onClaimed();
+          }}
+          onError={() => {
+            setError(
+              "World verification was unsuccessful. The protected claim was not granted. Start a fresh verification to retry.",
+            );
+            void cancel();
+          }}
+        />
+      )}
+    </>
+  );
 }
