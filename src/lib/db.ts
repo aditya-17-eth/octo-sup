@@ -40,7 +40,7 @@ async function initialize() {
     );
     CREATE TABLE IF NOT EXISTS payments (
       digest TEXT PRIMARY KEY, missionId TEXT NOT NULL, status TEXT NOT NULL,
-      transactionId TEXT UNIQUE, payer TEXT, receipt TEXT, createdAt INTEGER NOT NULL
+      transactionId TEXT UNIQUE, payer TEXT, receipt TEXT, payloadHash TEXT NOT NULL, createdAt INTEGER NOT NULL
     );
     CREATE TABLE IF NOT EXISTS agent_runs (
       id TEXT PRIMARY KEY, missionId TEXT NOT NULL, status TEXT NOT NULL,
@@ -50,6 +50,8 @@ async function initialize() {
     CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, resetAt INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS inference_requests (id TEXT PRIMARY KEY,missionId TEXT NOT NULL,model TEXT NOT NULL,rawResponse TEXT NOT NULL,createdAt INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS review_jobs (missionId TEXT PRIMARY KEY,token TEXT NOT NULL,startedAt INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS agent_payloads (runId TEXT PRIMARY KEY,signature TEXT NOT NULL);
+    CREATE UNIQUE INDEX IF NOT EXISTS one_agent_purchase_per_mission ON agent_runs(missionId) WHERE status IN ('RESERVED','UNKNOWN','SETTLED');
   `);
   return client;
 }
