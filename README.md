@@ -1,5 +1,7 @@
 # REALITY.EXE
 
+Repository: [aditya-17-eth/octo-sup](https://github.com/aditya-17-eth/octo-sup).
+
 **The physical world, as an API for AI.** A human observation marketplace for ETHGlobal Mumbai: mission-bound World ID claims, private camera evidence, 0G visual assessments, and autonomous Hedera testnet x402 purchases.
 
 ## Run locally
