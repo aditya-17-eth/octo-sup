@@ -16,6 +16,10 @@
     "test": "tsx --test tests/*.test.ts",
     "agent": "tsx --env-file=.env.local scripts/agent.ts",
     "doctor": "tsx --env-file=.env.local scripts/doctor.ts",
+    "probe:og": "tsx --env-file=.env.local scripts/og-probe.ts",
+    "diagnose:x402": "tsx --env-file=.env.local scripts/live-x402-check.ts",
+    "provision:merchant": "tsx --env-file=.env.local scripts/provision-merchant.ts",
+    "receipts:record": "tsx --env-file=.env.local scripts/record-live-receipts.ts",
     "verify-settlement": "tsx scripts/verify-settlement.ts"
   },
   "dependencies": {

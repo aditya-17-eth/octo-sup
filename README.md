@@ -114,6 +114,10 @@ World checks human eligibility, not honesty. Visual inference is assessed eviden
 
 See [docs/DEMO.md](docs/DEMO.md) for the under-three-minute recording plan and [docs/INTEGRATION_DEBRIEF.md](docs/INTEGRATION_DEBRIEF.md) for the honest sponsor-validation checklist.
 
+[docs/LIVE_RECEIPTS.md](docs/LIVE_RECEIPTS.md) records the real merchant provisioning and autonomous x402 diagnostic settlement. These validate live payments independently while World registration and private vision availability are resolved. They are not represented as a completed human-evidence purchase.
+
+Diagnostic tools are explicit: `npm run probe:og` sends one synthetic color swatch through real private 0G inference; `npm run diagnose:x402` pays **0.001 test HBAR** for an isolated diagnostic resource; `npm run provision:merchant` creates a separate testnet account with 0.1 test HBAR initial funding and refuses to run if a merchant is already configured. `npm run receipts:record` independently checks the public mirror receipts and adds clearly labeled setup/diagnostic events to the timeline. These tools do not create or claim verified human missions. Private journals remain ignored under data/.
+
 ## Official sources
 
 - https://ethglobal.com/events/mumbai/prizes

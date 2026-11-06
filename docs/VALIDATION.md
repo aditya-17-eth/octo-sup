@@ -17,8 +17,8 @@
 
 ## Still required for a real end-to-end demo
 
-- Save the actual 0G inference API key, buyer signing key, and World RP signing key in the app's .env.local. Public IDs alone cannot sign or authenticate.
-- Configure a merchant distinct from the buyer. A buyer-to-itself transfer is not meaningful purchase settlement.
+- Sponsor keys were subsequently saved and the buyer key matches the on-chain account. The user confirmed correction of the initial World signer mismatch; actual proof completion is pending. The live cancellation path kept the mission OPEN.
+- Merchant `0.0.11337967` was created, and an actual x402 diagnostic settled 0.001 test HBAR to it. See [LIVE_RECEIPTS.md](LIVE_RECEIPTS.md). This is not yet a human-evidence marketplace purchase.
 - Resolve private vision provider availability with 0G, or explicitly authorize and label a non-sensitive standard-routing demo. No privacy downgrade is enabled automatically.
 - Human completes a mission-bound World verification (or clearly labeled staging simulator), plus a cancellation/denial demonstration.
 - Camera capture of consented evidence, actual 0G structured result/request ID, real facilitator settlement, and independent HashScan/mirror confirmation.

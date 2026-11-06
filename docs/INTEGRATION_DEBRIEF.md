@@ -12,7 +12,8 @@ Status is deliberately separated from test fixtures. Fill live results after cre
 
 - Runnable app and production build: completed during implementation.
 - Isolated protocol suite: completed, explicitly synthetic external service responses.
-- First live World proof / 0G response / Hedera settlement: **not yet measured; do not fabricate timings**.
+- Real Hedera x402 diagnostic settled successfully; exact public receipt is in [LIVE_RECEIPTS.md](LIVE_RECEIPTS.md). No elapsed integration time is fabricated.
+- First live World proof and successful 0G visual response remain pending; no time-to-success claim is made for them.
 
 ## Friction observed
 
