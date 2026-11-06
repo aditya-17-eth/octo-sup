@@ -48,6 +48,8 @@ async function initialize() {
       createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL
     );
     CREATE TABLE IF NOT EXISTS rate_limits (key TEXT PRIMARY KEY, count INTEGER NOT NULL, resetAt INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS inference_requests (id TEXT PRIMARY KEY,missionId TEXT NOT NULL,model TEXT NOT NULL,rawResponse TEXT NOT NULL,createdAt INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS review_jobs (missionId TEXT PRIMARY KEY,token TEXT NOT NULL,startedAt INTEGER NOT NULL);
   `);
   return client;
 }
